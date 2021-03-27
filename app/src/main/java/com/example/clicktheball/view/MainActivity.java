@@ -1,4 +1,4 @@
-package com.example.clicktheball;
+package com.example.clicktheball.view;
 
 import androidx.appcompat.app.AppCompatActivity;
 
