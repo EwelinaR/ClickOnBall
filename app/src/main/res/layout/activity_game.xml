@@ -3,6 +3,7 @@
     xmlns:android="http://schemas.android.com/apk/res/android">
 
     <data>
+        <import type="android.view.View" />
         <variable
             name="game"
             type="com.example.clicktheball.viewmodel.GameModelView" />
@@ -36,25 +37,39 @@
                 android:text="@string/points" />
         </LinearLayout>
 
-        <StackView
-            android:id="@+id/gameContainer"
+        <FrameLayout
+            android:id="@+id/gameContainerBorder"
             android:layout_width="match_parent"
             android:layout_height="0dp"
             android:layout_marginStart="32dp"
-            android:layout_marginLeft="32dp"
             android:layout_marginTop="16dp"
             android:layout_marginEnd="32dp"
-            android:layout_marginRight="32dp"
             android:layout_marginBottom="16dp"
             android:animateLayoutChanges="true"
-            android:background="@color/light_purple"
-            android:fadingEdge="vertical"
-            android:gravity="top"
+            android:background="@color/dark_purple"
             android:padding="8dp"
             app:layout_constraintBottom_toTopOf="@+id/gameGoalText"
             app:layout_constraintEnd_toEndOf="parent"
             app:layout_constraintStart_toStartOf="parent"
-            app:layout_constraintTop_toBottomOf="@+id/header" />
+            app:layout_constraintTop_toBottomOf="@+id/header">
+
+            <FrameLayout
+                android:id="@+id/gameContainer"
+                android:layout_width="match_parent"
+                android:layout_height="match_parent"
+                android:animateLayoutChanges="true"
+                android:background="@color/white">
+
+                <Button
+                    android:id="@+id/playButton"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_gravity="center"
+                    android:visibility="@{game.playingState ? View.INVISIBLE : View.VISIBLE}"
+                    android:onClick="@{() -> game.onStartTheGame()}"
+                    android:text="@{game.endState ? @string/start_again : @string/start }" />
+            </FrameLayout>
+        </FrameLayout>
 
         <TextView
             android:id="@+id/gameGoalText"
@@ -72,6 +87,7 @@
             android:layout_height="wrap_content"
             android:layout_marginBottom="16dp"
             android:text="@string/stop_button"
+            android:onClick="@{() -> game.onStopTheGame()}"
             app:layout_constraintBottom_toBottomOf="parent"
             app:layout_constraintEnd_toEndOf="parent"
             app:layout_constraintStart_toStartOf="parent" />

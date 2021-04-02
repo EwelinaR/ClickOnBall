@@ -10,4 +10,8 @@ public class GameStatus {
     public void addPoint() {
         points++;
     }
+
+    public void resetPoints() {
+        points = 0;
+    }
 }
