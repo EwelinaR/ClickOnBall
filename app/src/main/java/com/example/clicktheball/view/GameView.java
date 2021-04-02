@@ -6,15 +6,22 @@ import android.view.View;
 import android.view.ViewGroup;
 
 import androidx.annotation.NonNull;
+import androidx.databinding.DataBindingUtil;
 import androidx.fragment.app.Fragment;
 
 import com.example.clicktheball.R;
+import com.example.clicktheball.databinding.ActivityGameBindingImpl;
+import com.example.clicktheball.viewmodel.GameModelView;
 
 public class GameView extends Fragment {
 
     @Override
-    public View onCreateView(LayoutInflater inflater, ViewGroup parent, Bundle savedInstanceState) {
-        return inflater.inflate(R.layout.activity_game, parent, false);
+    public View onCreateView(@NonNull LayoutInflater inflater, ViewGroup parent, Bundle savedInstanceState) {
+        ActivityGameBindingImpl activityGameBinding =
+                DataBindingUtil.inflate(
+                        inflater, R.layout.activity_game, parent, false);
+        activityGameBinding.setGame(new GameModelView());
+        return activityGameBinding.getRoot();
     }
 
     // This event is triggered soon after onCreateView().
