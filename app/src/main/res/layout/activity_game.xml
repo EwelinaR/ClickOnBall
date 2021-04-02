@@ -38,7 +38,7 @@
         </LinearLayout>
 
         <FrameLayout
-            android:id="@+id/gameContainerBorder"
+            android:id="@+id/game_container_border"
             android:layout_width="match_parent"
             android:layout_height="0dp"
             android:layout_marginStart="32dp"
@@ -48,20 +48,20 @@
             android:animateLayoutChanges="true"
             android:background="@color/dark_purple"
             android:padding="8dp"
-            app:layout_constraintBottom_toTopOf="@+id/gameGoalText"
+            app:layout_constraintBottom_toTopOf="@+id/game_goal_text"
             app:layout_constraintEnd_toEndOf="parent"
             app:layout_constraintStart_toStartOf="parent"
             app:layout_constraintTop_toBottomOf="@+id/header">
 
             <FrameLayout
-                android:id="@+id/gameContainer"
+                android:id="@+id/game_container"
                 android:layout_width="match_parent"
                 android:layout_height="match_parent"
                 android:animateLayoutChanges="true"
                 android:background="@color/white">
 
                 <Button
-                    android:id="@+id/playButton"
+                    android:id="@+id/play_button"
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
                     android:layout_gravity="center"
@@ -72,17 +72,17 @@
         </FrameLayout>
 
         <TextView
-            android:id="@+id/gameGoalText"
+            android:id="@+id/game_goal_text"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:layout_marginBottom="16dp"
             android:text="@string/game_goal"
-            app:layout_constraintBottom_toTopOf="@+id/stopGame"
+            app:layout_constraintBottom_toTopOf="@+id/stop_game"
             app:layout_constraintEnd_toEndOf="parent"
             app:layout_constraintStart_toStartOf="parent" />
 
         <Button
-            android:id="@+id/stopGame"
+            android:id="@+id/stop_game"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:layout_marginBottom="16dp"
