@@ -65,9 +65,9 @@
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
                     android:layout_gravity="center"
-                    android:visibility="@{game.playingState ? View.INVISIBLE : View.VISIBLE}"
                     android:onClick="@{() -> game.onStartTheGame()}"
-                    android:text="@{game.endState ? @string/start_again : @string/start }" />
+                    android:text="@{game.endState ? @string/start_again : @string/start }"
+                    android:visibility="@{game.playingState ? View.INVISIBLE : View.VISIBLE}" />
             </FrameLayout>
         </FrameLayout>
 

@@ -15,20 +15,20 @@ import com.example.clicktheball.viewmodel.GameModelView;
 
 public class GameView extends Fragment {
 
+    private GameModelView gameModelView;
+
     @Override
     public View onCreateView(@NonNull LayoutInflater inflater, ViewGroup parent, Bundle savedInstanceState) {
         ActivityGameBindingImpl activityGameBinding =
                 DataBindingUtil.inflate(
                         inflater, R.layout.activity_game, parent, false);
-        activityGameBinding.setGame(new GameModelView());
+        gameModelView = new GameModelView();
+        activityGameBinding.setGame(gameModelView);
         return activityGameBinding.getRoot();
     }
 
-    // This event is triggered soon after onCreateView().
-    // Any view setup should occur here.  E.g., view lookups and attaching view listeners.
     @Override
     public void onViewCreated(@NonNull View view, Bundle savedInstanceState) {
-        // Setup any handles to view objects here
-        // EditText etFoo = (EditText) view.findViewById(R.id.etFoo);
+        gameModelView.setView(view, getContext());
     }
 }
