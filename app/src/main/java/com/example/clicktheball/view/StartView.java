@@ -6,29 +6,27 @@ import android.view.View;
 import android.view.ViewGroup;
 
 import androidx.annotation.NonNull;
-import androidx.databinding.DataBindingUtil;
 import androidx.fragment.app.Fragment;
+import androidx.fragment.app.FragmentTransaction;
 
 import com.example.clicktheball.R;
-import com.example.clicktheball.databinding.ActivityMainBinding;
-import com.example.clicktheball.viewmodel.MainViewModel;
 
 public class StartView extends Fragment {
 
     @Override
     public View onCreateView(@NonNull LayoutInflater inflater, ViewGroup container, Bundle savedInstanceState) {
-        ActivityMainBinding activityMainBinding =
-                DataBindingUtil.inflate(
-                        inflater, R.layout.activity_main, container, false);
-        activityMainBinding.setMainViewModel(new MainViewModel(getFragmentManager()));
-        return activityMainBinding.getRoot();
+        return inflater.inflate(R.layout.activity_main, container, false);
     }
 
-    // This event is triggered soon after onCreateView().
-    // Any view setup should occur here.  E.g., view lookups and attaching view listeners.
     @Override
     public void onViewCreated(@NonNull View view, Bundle savedInstanceState) {
-        // Setup any handles to view objects here
-        // EditText etFoo = (EditText) view.findViewById(R.id.etFoo);
+        super.onViewCreated(view, savedInstanceState);
+        view.findViewById(R.id.show_game_panel).setOnClickListener(view1 -> goToGameView());
+    }
+
+    public void goToGameView() {
+        FragmentTransaction ft = getFragmentManager().beginTransaction();
+        ft.add(R.id.fragment_placeholder, new GameView());
+        ft.commit();
     }
 }
