@@ -9,6 +9,7 @@ import com.example.clicktheball.R;
 
 public class Ball {
     final private static int BALL_RADIUS = 50;
+    final private static float BALL_SPEED = 0.5f;
     private final ImageView icon;
     private int gamePanelWidth;
     private int gamePanelHeight;
@@ -98,9 +99,16 @@ public class Ball {
         TranslateAnimation trans =
                 new TranslateAnimation(0, (float) (endPosition.x - startPosition.x),
                         0,  (float) (endPosition.y - startPosition.y));
-        trans.setDuration(1000);
+
+        trans.setDuration(getAnimationDuration());
         trans.setFillAfter(true);
         trans.setFillEnabled(true);
         icon.setAnimation(trans);
+    }
+
+    private long getAnimationDuration() {
+        double destination = Math.sqrt(Math.pow(endPosition.x - startPosition.x, 2)
+                + Math.pow(endPosition.y - startPosition.y, 2));
+        return (long) (destination / BALL_SPEED);
     }
 }
