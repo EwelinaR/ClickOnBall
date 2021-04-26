@@ -7,7 +7,6 @@ import android.view.ViewGroup;
 import android.widget.Button;
 import android.widget.FrameLayout;
 import android.widget.ImageView;
-import android.widget.LinearLayout;
 import android.widget.TextView;
 
 import androidx.annotation.NonNull;
@@ -15,11 +14,13 @@ import androidx.fragment.app.Fragment;
 import androidx.lifecycle.ViewModelProvider;
 
 import com.example.clicktheball.R;
+import com.example.clicktheball.model.Ball;
 import com.example.clicktheball.viewmodel.GameViewModel;
 
 public class GameView extends Fragment {
 
     private GameViewModel model;
+    private Ball ball;
 
     @Override
     public View onCreateView(@NonNull LayoutInflater inflater, ViewGroup parent, Bundle savedInstanceState) {
@@ -47,6 +48,7 @@ public class GameView extends Fragment {
             if (gameInProgress) {
                 play.setVisibility(View.INVISIBLE);
                 stop.setEnabled(true);
+                ball.play();
             }
             else {
                 play.setVisibility(View.VISIBLE);
@@ -56,20 +58,12 @@ public class GameView extends Fragment {
     }
 
     private void initNewGame() {
-        int ballRadius = 50;
+        ball = new Ball(getContext());
         FrameLayout frameLayout = getView().findViewById(R.id.game_container);
-        ImageView icon = new ImageView(getContext());
-        icon.setImageResource(R.drawable.blue_circle);
-        LinearLayout.LayoutParams params
-                = new LinearLayout.LayoutParams(ballRadius * 2, ballRadius * 2);
-        icon.setLayoutParams(params);
+        ball.initIcon(frameLayout.getWidth(), frameLayout.getHeight());
+        ImageView icon = ball.getIcon();
         frameLayout.addView(icon);
-
-        int gamePanelWidth = frameLayout.getWidth();
-        int gamePaneHeight = frameLayout.getHeight();
-        icon.setX(gamePanelWidth - ballRadius * 2);
-        icon.setY(gamePaneHeight - ballRadius * 2);
-
+        icon.setOnClickListener(view1 -> System.out.println("CLICK"));
         model.onPlayGame();
     }
 }
