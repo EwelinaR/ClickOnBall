@@ -6,21 +6,20 @@ import android.view.View;
 import android.view.ViewGroup;
 import android.widget.Button;
 import android.widget.FrameLayout;
-import android.widget.ImageView;
 import android.widget.TextView;
 
 import androidx.annotation.NonNull;
 import androidx.fragment.app.Fragment;
 import androidx.lifecycle.ViewModelProvider;
 
+import com.example.clicktheball.BallsHandler;
 import com.example.clicktheball.R;
-import com.example.clicktheball.model.Ball;
 import com.example.clicktheball.viewmodel.GameViewModel;
 
 public class GameView extends Fragment {
 
     private GameViewModel model;
-    private Ball ball;
+    private BallsHandler ballsHandler;
 
     @Override
     public View onCreateView(@NonNull LayoutInflater inflater, ViewGroup parent, Bundle savedInstanceState) {
@@ -48,22 +47,20 @@ public class GameView extends Fragment {
             if (gameInProgress) {
                 play.setVisibility(View.INVISIBLE);
                 stop.setEnabled(true);
-                ball.play();
+                ballsHandler.startGame();
             }
             else {
                 play.setVisibility(View.VISIBLE);
                 stop.setEnabled(false);
+                if (ballsHandler != null) ballsHandler.stopBalls();
             }
         });
     }
 
     private void initNewGame() {
-        ball = new Ball(getContext());
         FrameLayout frameLayout = getView().findViewById(R.id.game_container);
-        ball.initIcon(frameLayout.getWidth(), frameLayout.getHeight());
-        ImageView icon = ball.getIcon();
-        frameLayout.addView(icon);
-        icon.setOnClickListener(view1 -> System.out.println("CLICK"));
+
+        ballsHandler = new BallsHandler(1, frameLayout, getContext());
         model.onPlayGame();
     }
 }
