@@ -12,12 +12,12 @@ import java.util.List;
 public class BallsHandler {
 
     private final int numberOfBalls;
+    private final PointsObserver points;
     private List<BallAnimation> balls;
-    private final FrameLayout frameLayout;
 
-    public BallsHandler(int numberOfBalls, FrameLayout frameLayout, Context context) {
+    public BallsHandler(int numberOfBalls, FrameLayout frameLayout, Context context, PointsObserver points) {
         this.numberOfBalls = numberOfBalls;
-        this.frameLayout = frameLayout;
+        this.points = points;
 
         initBalls(frameLayout, context);
     }
@@ -29,7 +29,7 @@ public class BallsHandler {
             Ball ball = new Ball(context);
             ImageView icon = ball.getIcon();
             frameLayout.addView(icon);
-            icon.setOnClickListener(view1 -> addPoints());
+            icon.setOnClickListener(view1 -> addPoints(ball.getPoints()));
 
             balls.add(new BallAnimation(ball));
             balls.get(i).initFirstPath(frameLayout.getWidth(), frameLayout.getHeight());
@@ -37,8 +37,8 @@ public class BallsHandler {
         }
     }
 
-    private void addPoints() {
-        System.out.println("CLICK");
+    private void addPoints(int points) {
+        this.points.updatePoints(points);
     }
 
     public void startGame() {

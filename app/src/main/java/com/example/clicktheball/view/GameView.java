@@ -13,10 +13,11 @@ import androidx.fragment.app.Fragment;
 import androidx.lifecycle.ViewModelProvider;
 
 import com.example.clicktheball.BallsHandler;
+import com.example.clicktheball.PointsObserver;
 import com.example.clicktheball.R;
 import com.example.clicktheball.viewmodel.GameViewModel;
 
-public class GameView extends Fragment {
+public class GameView extends Fragment implements PointsObserver {
 
     private GameViewModel model;
     private BallsHandler ballsHandler;
@@ -31,7 +32,7 @@ public class GameView extends Fragment {
         model = new ViewModelProvider(requireActivity()).get(GameViewModel.class);
 
         TextView points = view.findViewById(R.id.points);
-        points.setText(model.getPoints());
+        model.getPoints().observe(this, newPoints -> points.setText(String.valueOf(newPoints)));
 
         initButtons(view);
     }
@@ -60,7 +61,12 @@ public class GameView extends Fragment {
     private void initNewGame() {
         FrameLayout frameLayout = getView().findViewById(R.id.game_container);
 
-        ballsHandler = new BallsHandler(1, frameLayout, getContext());
+        ballsHandler = new BallsHandler(1, frameLayout, getContext(), this);
         model.onPlayGame();
+    }
+
+    @Override
+    public void updatePoints(int points) {
+        model.addPoints(points);
     }
 }

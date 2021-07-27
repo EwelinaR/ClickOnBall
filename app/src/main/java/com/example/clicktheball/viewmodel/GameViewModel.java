@@ -4,28 +4,26 @@ import androidx.lifecycle.LiveData;
 import androidx.lifecycle.MutableLiveData;
 import androidx.lifecycle.ViewModel;
 
-import com.example.clicktheball.model.GameStatus;
-
 public class GameViewModel extends ViewModel {
 
     private final MutableLiveData<Boolean> gameInProgress = new MutableLiveData<>();
-    private final GameStatus gameStatus;
+    private final MutableLiveData<Integer> points = new MutableLiveData<>();
 
     public GameViewModel() {
-        gameStatus = new GameStatus();
         gameInProgress.setValue(false);
+        points.setValue(0);
     }
 
     public LiveData<Boolean> isGameInProgress() {
         return gameInProgress;
     }
 
-    public String getPoints() {
-        return String.valueOf(gameStatus.getPoints());
+    public LiveData<Integer> getPoints() {
+        return points;
     }
 
-    public void addPoint() {
-        gameStatus.addPoint();
+    public void addPoints(int points) {
+        this.points.setValue(this.points.getValue() + points);
     }
 
     public void onPlayGame() {
@@ -34,6 +32,5 @@ public class GameViewModel extends ViewModel {
 
     public void onStopGame() {
         gameInProgress.setValue(false);
-        addPoint();
     }
 }

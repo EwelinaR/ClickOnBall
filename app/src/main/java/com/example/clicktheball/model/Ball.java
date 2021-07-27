@@ -9,6 +9,7 @@ import com.example.clicktheball.R;
 public class Ball {
     final private static int BALL_RADIUS = 50;
     final private static double BALL_SPEED = 0.5;
+    final private static int POINTS = 10;
     private final ImageView icon;
     private Point startPosition = new Point();
     private Point endPosition = new Point();
@@ -53,6 +54,10 @@ public class Ball {
 
     public double getSpeed() {
         return BALL_SPEED;
+    }
+
+    public int getPoints() {
+        return POINTS;
     }
 
     public int getBallRadius() {
