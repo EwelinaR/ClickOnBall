@@ -1,26 +1,30 @@
 package com.example.clicktheball.view;
 
+import android.animation.ValueAnimator;
 import android.os.Bundle;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.Button;
 import android.widget.FrameLayout;
+import android.widget.ImageView;
 import android.widget.TextView;
 
 import androidx.annotation.NonNull;
 import androidx.fragment.app.Fragment;
 import androidx.lifecycle.ViewModelProvider;
 
-import com.example.clicktheball.BallsHandler;
-import com.example.clicktheball.PointsObserver;
+import com.example.clicktheball.model.Ball;
 import com.example.clicktheball.R;
 import com.example.clicktheball.viewmodel.GameViewModel;
 
-public class GameView extends Fragment implements PointsObserver {
+import java.util.ArrayList;
+import java.util.List;
+
+public class GameView extends Fragment {
 
     private GameViewModel model;
-    private BallsHandler ballsHandler;
+    private final List<ImageView> balls = new ArrayList<>();
 
     @Override
     public View onCreateView(@NonNull LayoutInflater inflater, ViewGroup parent, Bundle savedInstanceState) {
@@ -48,25 +52,78 @@ public class GameView extends Fragment implements PointsObserver {
             if (gameInProgress) {
                 play.setVisibility(View.INVISIBLE);
                 stop.setEnabled(true);
-                ballsHandler.startGame();
             }
             else {
                 play.setVisibility(View.VISIBLE);
                 stop.setEnabled(false);
-                if (ballsHandler != null) ballsHandler.stopBalls();
+                stopGame();
             }
         });
     }
 
     private void initNewGame() {
         FrameLayout frameLayout = getView().findViewById(R.id.game_container);
+        model.setGamePanelSize(frameLayout.getWidth(), frameLayout.getHeight());
 
-        ballsHandler = new BallsHandler(1, frameLayout, getContext(), this);
+        for (int i = 0; i < model.getNumberOfBalls(); i++) {
+            ImageView icon = new ImageView(getContext());
+            frameLayout.addView(icon);
+            balls.add(icon);
+        }
         model.onPlayGame();
+        startGame();
     }
 
-    @Override
-    public void updatePoints(int points) {
-        model.addPoints(points);
+    private void startGame() {
+        for (ImageView ball : balls) {
+            Ball ballModel = model.getBallModel();
+
+            // init ball icon
+            ball.setOnClickListener(view1 -> model.addPoints(ballModel.getPoints()));
+            ball.setImageResource(R.drawable.blue_circle);
+            FrameLayout.LayoutParams params
+                    = new FrameLayout.LayoutParams(ballModel.getBallRadius() * 2, ballModel.getBallRadius() * 2);
+            ball.setLayoutParams(params);
+            ball.setX((float) ballModel.getStartPosition().x);
+            ball.setY((float) ballModel.getStartPosition().y);
+            doAnimation(ballModel, ball);
+        }
+    }
+
+    public void doAnimation(Ball ballModel, ImageView ball) {
+        final int maxValue = 100;
+        ValueAnimator animation = ValueAnimator.ofFloat(0f, maxValue);
+
+        // init animation time and path
+        animation.setDuration(2000);
+        model.getNextAnimation(ballModel);
+        ball.setX((float) ballModel.getStartPosition().x);
+        ball.setY((float) ballModel.getStartPosition().y);
+
+        animation.addUpdateListener(valueAnimator -> {
+            if (model.isGameInProgress().getValue()) {
+                float value = (float) animation.getAnimatedValue();
+
+                ball.setX(model.getXAnimatedPosition(value, ballModel));
+                ball.setY(model.getYAnimatedPosition(value, ballModel));
+
+                if (value == maxValue) {
+                    doAnimation(ballModel, ball);
+                }
+            } else {
+                // stop animation
+                animation.cancel();
+            }
+        });
+        animation.start();
+    }
+
+    private void stopGame() {
+        FrameLayout frameLayout = getView().findViewById(R.id.game_container);
+        // remove ImageViews from View
+        for (ImageView ball : balls) {
+            frameLayout.removeView(ball);
+        }
+        balls.clear();
     }
 }
