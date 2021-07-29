@@ -30,6 +30,10 @@ android {
         sourceCompatibility JavaVersion.VERSION_1_8
         targetCompatibility JavaVersion.VERSION_1_8
     }
+
+    testOptions {
+        unitTests.returnDefaultValues = true
+    }
 }
 
 dependencies {
@@ -39,6 +43,5 @@ dependencies {
     implementation "androidx.lifecycle:lifecycle-livedata:2.3.1"
     implementation "androidx.lifecycle:lifecycle-viewmodel:2.3.1"
     testImplementation 'junit:junit:4.13.2'
-    androidTestImplementation 'androidx.test.ext:junit:1.1.2'
-    androidTestImplementation 'androidx.test.espresso:espresso-core:3.3.0'
+    testImplementation "android.arch.core:core-testing:1.1.1"
 }

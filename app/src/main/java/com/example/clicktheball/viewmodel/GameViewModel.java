@@ -1,5 +1,6 @@
 package com.example.clicktheball.viewmodel;
 
+import androidx.annotation.VisibleForTesting;
 import androidx.lifecycle.LiveData;
 import androidx.lifecycle.MutableLiveData;
 import androidx.lifecycle.ViewModel;
@@ -16,8 +17,7 @@ public class GameViewModel extends ViewModel {
     private double gamePanelHeight;
 
     public GameViewModel() {
-        gameInProgress.setValue(false);
-        points.setValue(0);
+        gameInProgress.postValue(false);
     }
 
     public LiveData<Boolean> isGameInProgress() {
@@ -67,14 +67,15 @@ public class GameViewModel extends ViewModel {
         ball.setEndPosition(initPosition(endSide, ball));
     }
 
-    private Point initPosition(int side, Ball ball) {
+    @VisibleForTesting
+    Point initPosition(int side, Ball ball) {
         Point position = new Point();
         int ballRadius = ball.getBallRadius();
         if (side % 2 == 0) {
             // even side means up or down
             position.x = Math.random() * (gamePanelWidth - 2 * ballRadius);
             if (side == 0) {
-                position.y = gamePanelHeight + ballRadius;
+                position.y = gamePanelHeight;
             } else {
                 position.y = -2 * ballRadius;
             }
@@ -83,7 +84,7 @@ public class GameViewModel extends ViewModel {
             if (side == 1) {
                 position.x = -2 * ballRadius;
             } else {
-                position.x = gamePanelWidth + ballRadius;
+                position.x = gamePanelWidth;
             }
             position.y = Math.random() * (gamePanelHeight - 2 * ballRadius);
         }
