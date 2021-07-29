@@ -28,8 +28,9 @@ public class GameViewModel extends ViewModel {
         return points;
     }
 
-    public void addPoints(int points) {
-        this.points.setValue(this.points.getValue() + points);
+    public void ballClicked(Ball ball) {
+        this.points.setValue(this.points.getValue() + ball.getPoints());
+        ball.setClicked(true);
     }
 
     public void onPlayGame() {
@@ -57,12 +58,13 @@ public class GameViewModel extends ViewModel {
     }
 
     public void getNextAnimation(Ball ball) {
+        ball.setClicked(false);
         // ball can be on the left/right or above/below screen
-        int startSide = (int) Math.round(Math.random() * 4);
+        int startSide = (int) (Math.random() * 4);
         ball.setStartPosition(initPosition(startSide, ball));
 
         // end position has to be different than start side
-        int endSide = (int) Math.round(Math.random() * 3);
+        int endSide = (int) (Math.random() * 3);
         if (endSide >= startSide) endSide++;
         ball.setEndPosition(initPosition(endSide, ball));
     }

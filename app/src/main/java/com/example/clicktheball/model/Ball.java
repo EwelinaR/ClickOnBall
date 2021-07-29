@@ -6,6 +6,7 @@ public class Ball {
     final private static int POINTS = 10;
     private Point startPosition = new Point();
     private Point endPosition = new Point();
+    private boolean clicked = false;
 
     public Point getStartPosition() {
         return startPosition;
@@ -41,5 +42,13 @@ public class Ball {
 
     public int getBallRadius() {
         return BALL_RADIUS;
+    }
+
+    public boolean isClicked() {
+        return clicked;
+    }
+
+    public void setClicked(boolean clicked) {
+        this.clicked = clicked;
     }
 }

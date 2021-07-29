@@ -79,7 +79,7 @@ public class GameView extends Fragment {
             Ball ballModel = model.getBallModel();
 
             // init ball icon
-            ball.setOnClickListener(view1 -> model.addPoints(ballModel.getPoints()));
+            ball.setOnClickListener(view1 ->  model.ballClicked(ballModel));
             ball.setImageResource(R.drawable.blue_circle);
             FrameLayout.LayoutParams params
                     = new FrameLayout.LayoutParams(ballModel.getBallRadius() * 2, ballModel.getBallRadius() * 2);
@@ -107,8 +107,9 @@ public class GameView extends Fragment {
                 ball.setX(model.getXAnimatedPosition(value, ballModel));
                 ball.setY(model.getYAnimatedPosition(value, ballModel));
 
-                if (value == maxValue) {
+                if (value == maxValue || ballModel.isClicked()) {
                     doAnimation(ballModel, ball);
+                    animation.cancel();
                 }
             } else {
                 // stop animation
