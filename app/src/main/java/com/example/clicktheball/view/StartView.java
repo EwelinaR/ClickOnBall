@@ -26,7 +26,8 @@ public class StartView extends Fragment {
 
     public void goToGameView() {
         FragmentTransaction ft = getFragmentManager().beginTransaction();
-        ft.add(R.id.fragment_placeholder, new GameView());
+        ft.replace(R.id.fragment_placeholder, new GameView());
+        ft.addToBackStack(null);
         ft.commit();
     }
 }

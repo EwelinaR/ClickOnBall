@@ -127,4 +127,10 @@ public class GameView extends Fragment {
         }
         balls.clear();
     }
+
+    @Override
+    public void onStop() {
+        super.onStop();
+        model.onStop();
+    }
 }

@@ -38,6 +38,11 @@ public class GameViewModel extends ViewModel {
         points.setValue(0);
     }
 
+    public void onStop() {
+        onStopGame();
+        points.setValue(0);
+    }
+
     public void onStopGame() {
         gameInProgress.setValue(false);
     }
