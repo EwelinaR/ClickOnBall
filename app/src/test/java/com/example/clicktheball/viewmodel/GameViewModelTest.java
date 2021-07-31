@@ -4,9 +4,15 @@ import com.example.clicktheball.model.Ball;
 import com.example.clicktheball.model.Point;
 
 import org.junit.Test;
+import org.junit.runner.RunWith;
+import org.junit.runners.Parameterized;
+
+import junitparams.JUnitParamsRunner;
+import junitparams.Parameters;
 
 import static org.junit.Assert.*;
 
+@RunWith(JUnitParamsRunner.class)
 public class GameViewModelTest {
 
     private final int SIZE = 100;
@@ -102,6 +108,24 @@ public class GameViewModelTest {
         assertEquals(SIZE, position.x, 0.01);
         assertNotEquals(-2 * ball.getBallRadius(), position.y,0.01);
         assertNotEquals(SIZE + 2 * ball.getBallRadius(), position.y,0.01);
+    }
+
+    @Test
+    @Parameters({"0, 10, 14", "0, 5, 10"})
+    public void animationDuration(int x, int y, long expectedDuration) {
+        // arrange
+        GameViewModel gameViewModel = new GameViewModel();
+        gameViewModel.setGamePanelSize(10, 10);
+
+        Ball ball = new Ball();
+        ball.setStartPosition(new Point(5, 5));
+        ball.setEndPosition(new Point(x, y));
+
+        // act
+        long duration = gameViewModel.getAnimationDuration(ball);
+
+        // assert
+        assertEquals(expectedDuration, duration);
     }
 
     private boolean isPointOnBorder(Point point) {

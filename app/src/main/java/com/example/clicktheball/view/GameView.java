@@ -94,11 +94,12 @@ public class GameView extends Fragment {
         final int maxValue = 100;
         ValueAnimator animation = ValueAnimator.ofFloat(0f, maxValue);
 
-        // init animation time and path
-        animation.setDuration(2000);
+        // init animation path and time
         model.getNextAnimation(ballModel);
         ball.setX((float) ballModel.getStartPosition().x);
         ball.setY((float) ballModel.getStartPosition().y);
+
+        animation.setDuration(model.getAnimationDuration(ballModel));
 
         animation.addUpdateListener(valueAnimator -> {
             if (model.isGameInProgress().getValue()) {

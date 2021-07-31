@@ -98,6 +98,12 @@ public class GameViewModel extends ViewModel {
         return position;
     }
 
+    public long getAnimationDuration(Ball ballModel) {
+        double destination = Math.sqrt(Math.pow(ballModel.getXDistance(), 2)
+                + Math.pow(ballModel.getYDistance(), 2));
+        return (long) (destination / ballModel.getSpeed());
+    }
+
     public float getXAnimatedPosition(double value, Ball ball) {
         return (float) (ball.getStartPosition().x + ball.getXDistance() * value / 100);
     }
